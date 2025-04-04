@@ -7,11 +7,11 @@ import os
 from django.utils import timezone
 from django.utils.timezone import is_aware, make_aware
 
-# تنظیمات Django
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "trader_ai.settings")
 django.setup()
 
-# مدل‌های Django
+
 from market.models import EconomicCalendar, Currency
 
 def extract_year_from_url(url):
@@ -21,13 +21,13 @@ def extract_year_from_url(url):
             return int(parts[1].split(".")[-1])
     except Exception:
         pass
-    return datetime.now().year  # اگر سال پیدا نشد، سال جاری را برگردان
+    return datetime.now().year 
 
 def parse_calendar_table(table, base_url):
-    """تبدیل جدول تقویم اقتصادی به لیستی از دیکشنری‌ها"""
+   
     rows = []
     current_date = None
-    year = extract_year_from_url(base_url)  # استخراج سال از URL
+    year = extract_year_from_url(base_url) 
 
     tbody = table.find("tbody") or table
 
@@ -36,19 +36,19 @@ def parse_calendar_table(table, base_url):
         if not tds:
             continue
 
-        if len(tds) == 1:  # سطر تاریخ
-            current_date = tds[0].get_text(strip=True) + f" {year}"  # افزودن سال
+        if len(tds) == 1: 
+            current_date = tds[0].get_text(strip=True) + f" {year}"
             current_date = current_date.replace("Mon", "Mon ").replace("Tue", "Tue ")\
                                          .replace("Wed", "Wed ").replace("Thu", "Thu ")\
                                          .replace("Fri", "Fri ").replace("Sat", "Sat ")\
                                          .replace("Sun", "Sun ")
-            print(f"📅 تاریخ پیدا شد: {current_date}")  # چاپ تاریخ برای بررسی
+            print(f"📅 تاریخ پیدا شد: {current_date}") 
             continue
 
         cells = [td.get_text(strip=True) for td in tds] + [""] * (10 - len(tds))
         
         full_date = f"{current_date} {cells[0]}" if current_date else ""
-        print(f"🛠️ بررسی فرمت تاریخ نهایی: {full_date}")  # چاپ تاریخ قبل از پردازش
+        print(f"🛠️ بررسی فرمت تاریخ نهایی: {full_date}") 
         
         try:
             event_date = None
