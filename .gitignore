@@ -1,0 +1,6 @@
+new_env/
+db.sqlite3
+*.pyd
+*.dll
+*.pyc
+__pycache__/
