@@ -1,0 +1,19 @@
+command for :
+fetch and save economic calender:  python -m market_data.news.trading_economics
+
+fetch and save news:  -m market_data.news.economy_news AAPL 2024
+
+fetch and save forex and stock : python manage.py fetch_and_store yahoo EURUSD --timeframes 1mo
+
+fetch and save crypto : python manage.py fetch_crypto binance BTC 1mo  
+
+get marketData from database :  curl -X GET http://127.0.0.1:8000/market-data/?symbol=AUDUSD=X^&timeframe=1d^&year=2023 -H "Accept: application/json"
+                                curl -X GET http://127.0.0.1:8000/market-data/?symbol=AUDUSD=X^&timeframe=1d^&start_year=2023^&end_year=2024 -H "Accept: application/json"  
+
+get news from database : curl -X GET http://127.0.0.1:8000/news/?ticker=AAPL^&title=job^&start_year=2023^&end_year=2024 -H "Accept: application/json"
+
+get economicCalendar from database : curl -X GET http://127.0.0.1:8000/economic-calendar/?currency=EUR^&event=pmi^&start_year=2023^&end_year=2024 -H "Accept: application/json"
+
+get COTReports :    python manage.py cot_reports
+
+get FX_Option_Expiercies: python manage.py fx_option_expiery --date=2025-04-08

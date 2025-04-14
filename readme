@@ -1,0 +1,45 @@
+# Trader AI
+
+**Trader AI** is a Django-based backend project designed to provide structured and historical market data (pricing, economic news, and calendar events) via RESTful APIs for downstream financial analysis tools and AI-based agents.
+
+## 🔍 Overview
+
+This project is focused on collecting and organizing financial data from various APIs and exposing them through standardized endpoints. These data points can be used to build analytical tools, dashboards, or integrated with LLM-based financial agents.
+
+## 📊 What It Does
+
+- Collects and stores historical:
+  - **Pricing data** (e.g. stock, crypto, forex)
+  - **Economic news headlines**
+  - **Economic calendar events**
+
+- Serves this data via **REST APIs** for downstream applications and agents.
+
+- Allows future integration with:
+  - **LLM agents**
+  - **Trading dashboards**
+  - **Visualization tools**
+
+## 🧠 Use Case
+
+The goal is to enable the development of tools and agents that can:
+- Perform technical and sentiment analysis
+- Read economic conditions from real historical data
+- Build trading strategies based on structured data
+
+## ⚙️ Technologies Used
+
+- **Backend Framework:** Django, Django REST Framework  
+- **Database:** PostgreSQL  
+- **Data Collection:** Custom API integrations with:
+  - Market pricing providers
+  - News aggregators
+  - Economic calendar APIs
+- **Data Serving:** REST APIs for external use  
+- **(Planned)** Future support for AI Agent Tooling
+
+## 🚧 Project Status
+
+The data ingestion pipeline is complete, with live and historical data stored in the database.  
+Currently developing the REST API layer and planning future integration with AI-based agent platforms.
+
