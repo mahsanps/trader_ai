@@ -18,7 +18,7 @@ class Command(BaseCommand):
         dt = datetime.strptime(date_str, '%Y-%m-%d')
         formatted_date = dt.strftime("%Y%m%d")
 
-        # Try both formats: with zero and without zero
+      
         day_formats = []
         try:
             day_formats.append(dt.strftime('%-d-%B').lower())  # Linux/mac
