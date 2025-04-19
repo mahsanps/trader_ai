@@ -30,36 +30,36 @@ class Command(BaseCommand):
         response = None
         for day_fmt in day_formats:
             url = f"https://www.forexlive.com/Orders/fx-option-expiries-for-{day_fmt}-10am-new-york-cut-{formatted_date}/"
-            print(f"🌐 Trying: {url}")
+            print(f"Trying: {url}")
             r = requests.get(url)
             if r.status_code == 200:
                 response = r
                 break
 
         if not response:
-            self.stdout.write("❌ Page not found.")
+            self.stdout.write(" Page not found.")
             return
 
         soup = BeautifulSoup(response.text, "html.parser")
         figure = soup.find("figure", class_="content-data__image")
         if not figure:
-            self.stdout.write("❌ Figure with image not found.")
+            self.stdout.write(" Figure with image not found.")
             return
 
         img = figure.find("img")
         if not img:
-            self.stdout.write("❌ Image tag not found inside figure.")
+            self.stdout.write(" Image tag not found inside figure.")
             return
 
         image_url = img.get("data-src") or img.get("src")
         if not image_url:
-            self.stdout.write("❌ Image URL not found.")
+            self.stdout.write(" Image URL not found.")
             return
 
-        print(f"📷 Image found: {image_url}")
+        print(f" Image found: {image_url}")
         image_response = requests.get(image_url)
         if image_response.status_code != 200:
-            self.stdout.write("❌ Failed to download image.")
+            self.stdout.write("Failed to download image.")
             return
 
         # Save image to model
@@ -67,4 +67,4 @@ class Command(BaseCommand):
         fx_image, created = FxOptionExpiry.objects.get_or_create(date=dt.date())
         fx_image.image.save(image_name, ContentFile(image_response.content), save=True)
 
-        self.stdout.write(self.style.SUCCESS(f"✅ Image saved for {dt.date()}"))
+        self.stdout.write(self.style.SUCCESS(f"Image saved for {dt.date()}"))

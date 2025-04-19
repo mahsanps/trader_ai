@@ -29,7 +29,7 @@ class BinanceMarketAdapter(BaseMarketAdapter):
 
                     response = requests.get(self.BASE_URL, params=params)
                     if response.status_code != 200:
-                        logger.warning(f"⚠ Error fetching {interval} data: {response.text}")
+                        logger.warning(f"Error fetching {interval} data: {response.text}")
                         break
 
                     data = response.json()
@@ -40,8 +40,8 @@ class BinanceMarketAdapter(BaseMarketAdapter):
                     parsed_data = self.parse_data(data, symbol, interval)
                     all_data.extend(parsed_data)
 
-                    start_time = data[-1][0] + 1  # جلوگیری از دریافت داده‌های تکراری
-                    time.sleep(1)  # جلوگیری از بلاک شدن
+                    start_time = data[-1][0] + 1  
+                    time.sleep(1)  
 
         return all_data
 

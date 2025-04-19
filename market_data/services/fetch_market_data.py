@@ -10,12 +10,12 @@ def fetch_market_data(source, symbol, intervals, start_year=2020, end_year=2024)
     
     adapter = MarketAdapterFactory.get_adapter(source)
     if not adapter:
-        raise ValueError(f"❌ No adapter found for source: {source}")
+        raise ValueError(f"No adapter found for source: {source}")
 
-    logger.info(f"📌 Fetching data for {symbol} from {source}...")
+    logger.info(f" Fetching data for {symbol} from {source}...")
     all_data = adapter.fetch_data(symbol, intervals, start_year, end_year)
 
-    logger.info(f"✅ Fetched {len(all_data)} records.")
+    logger.info(f" Fetched {len(all_data)} records.")
    
     return all_data
 
@@ -43,7 +43,7 @@ def save_market_data(all_data):
         ).exists()
 
         if exists:
-            logger.warning(f"⚠ Data for {data['symbol']} at {data['datetime']} ({timeframe}) already exists. Skipping...")
+            logger.warning(f" Data for {data['symbol']} at {data['datetime']} ({timeframe}) already exists. Skipping...")
             continue  
 
         objects_to_create.append(
@@ -64,6 +64,6 @@ def save_market_data(all_data):
 
     if objects_to_create:
         MarketData.objects.bulk_create(objects_to_create, ignore_conflicts=True)
-        logger.info(f"✅ Successfully saved {len(objects_to_create)} records.")
+        logger.info(f"Successfully saved {len(objects_to_create)} records.")
     else:
-        logger.warning("⚠ No new data to save.")
+        logger.warning(" No new data to save.")

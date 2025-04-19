@@ -77,10 +77,15 @@ WSGI_APPLICATION = 'trader_ai.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db_backup.sqlite3', 
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'trader_ai_db',              
+        'USER': 'postgres',
+        'PASSWORD': 'admin1234',  
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
 
 
 # Password validation

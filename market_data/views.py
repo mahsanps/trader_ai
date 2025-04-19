@@ -51,7 +51,7 @@ class NewsAPIView(APIView):
             queryset = queryset.filter( published_at__year=year)
         elif start_year and end_year:
             start_date = make_aware(datetime(int(start_year), 1, 1))
-            end_date = make_aware(datetime(int(end_year) + 1, 1, 1))  # تا اول سال بعدی
+            end_date = make_aware(datetime(int(end_year) + 1, 1, 1))  
             queryset = queryset.filter( published_at__gte=start_date,  published_at__lt=end_date)
        
 
@@ -77,7 +77,7 @@ class EconomicCalendarAPIView(APIView):
             queryset = queryset.filter( date__year=year)
         elif start_year and end_year:
             start_date = make_aware(datetime(int(start_year), 1, 1))
-            end_date = make_aware(datetime(int(end_year) + 1, 1, 1))  # تا اول سال بعدی
+            end_date = make_aware(datetime(int(end_year) + 1, 1, 1))  
             queryset = queryset.filter( date__gte=start_date,  date__lt=end_date)
               
 

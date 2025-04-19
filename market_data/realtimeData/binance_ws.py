@@ -27,18 +27,18 @@ def on_message(ws, message):
         "vwap": (float(kline["q"]) / float(kline["v"])) if float(kline["v"]) > 0 else None  
     }
 
-    print(f"📈 {market_data}")
+    print(f"{market_data}")
 
 def on_error(ws, error):
-    print(f"❌ خطا: {error}")
+    print(f"{error}")
 
 def on_close(ws, close_status_code, close_msg):
-    print("🔴 اتصال بسته شد")
+    print("")
 
 def on_open(ws):
     params = {
         "method": "SUBSCRIBE",
-        "params": [f"{symbol.lower()}@kline_{tf}" for symbol in symbols for tf in timeframes],  # lower() اضافه شد
+        "params": [f"{symbol.lower()}@kline_{tf}" for symbol in symbols for tf in timeframes], 
         "id": 1
     }
     ws.send(json.dumps(params))

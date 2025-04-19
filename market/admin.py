@@ -3,14 +3,14 @@ from .models import Symbol, MarketData, DataSource, EconomicCalendar, News, COTR
 
 class MarketDataInline(admin.TabularInline):  
     model = MarketData
-    extra = 1  # تعداد فیلدهای خالی برای اضافه کردن داده‌های جدید
+    extra = 1  
 
-# تعریف پنل مدیریت برای Symbol
+
 @admin.register(Symbol)
 class SymbolAdmin(admin.ModelAdmin):
     list_display = ("symbol", "market_type")
     list_filter = ("market_type", "currency")
-    inlines = [MarketDataInline]  # اضافه کردن MarketData به صفحه Symbol
+    inlines = [MarketDataInline] 
 
 admin.site.register(MarketData)
 admin.site.register(DataSource)

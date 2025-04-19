@@ -1,6 +1,7 @@
 new_env/
 db.sqlite3
 db_backup.sqlite3
+db.json
 forexlive_images/
 *.jpg
 *.png

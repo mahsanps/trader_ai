@@ -10,9 +10,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         symbols = options["symbols"]
         for symbol in symbols:
-            self.stdout.write(f"📌 Fetching market data for {symbol}...")
+            self.stdout.write(f" Fetching market data for {symbol}...")
             try:
                 fetch_and_save_crypto(symbol)
-                self.stdout.write(self.style.SUCCESS(f"✅ Successfully saved data for {symbol}."))
+                self.stdout.write(self.style.SUCCESS(f" Successfully saved data for {symbol}."))
             except Exception as e:
-                self.stderr.write(self.style.ERROR(f"❌ Error fetching data for {symbol}: {e}"))
+                self.stderr.write(self.style.ERROR(f" Error fetching data for {symbol}: {e}"))

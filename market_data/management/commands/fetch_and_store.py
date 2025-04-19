@@ -27,8 +27,8 @@ class Command(BaseCommand):
         data_list = fetch_market_data(source, symbol, timeframes, start_year, end_year)
 
         if data_list:
-            print("🟢 Calling save_market_data now...")
+            print(" Calling save_market_data now...")
             save_market_data(data_list)
            
         else:
-            print("❌ No data fetched.")
+            print(" No data fetched.")

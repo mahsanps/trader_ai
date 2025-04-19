@@ -15,7 +15,7 @@ class Command(BaseCommand):
         local_zip = "fut_fin_txt_2024.zip"
         extract_path = "cot_data"
 
-        print("📥 Downloading CFTC ZIP file...")
+        print("Downloading CFTC ZIP file...")
         response = requests.get(url)
         with open(local_zip, "wb") as f:
             f.write(response.content)
@@ -35,11 +35,11 @@ class Command(BaseCommand):
 
             try:
                 df = pd.read_csv(file_path, skiprows=0, engine='python')
-                print(f"✅ Loaded {len(df)} rows")
+                print(f" Loaded {len(df)} rows")
 
                 
             except Exception as e:
-                print(f"❌ Failed to load {file}: {e}")
+                print(f" Failed to load {file}: {e}")
                 continue
 
             saved = 0
@@ -71,9 +71,9 @@ class Command(BaseCommand):
                     saved += 1
 
                 except Exception as e:
-                    print(f"❌ Error saving row {idx}: {e}")
+                    print(f" Error saving row {idx}: {e}")
                     continue
 
-            print(f"✅ Saved {saved} rows from {file}")
+            print(f" Saved {saved} rows from {file}")
 
-        print("\n🎉 All done!")
+        print(" All done!")

@@ -42,13 +42,13 @@ def parse_calendar_table(table, base_url):
                                          .replace("Wed", "Wed ").replace("Thu", "Thu ")\
                                          .replace("Fri", "Fri ").replace("Sat", "Sat ")\
                                          .replace("Sun", "Sun ")
-            print(f"📅 تاریخ پیدا شد: {current_date}") 
+            print(f" {current_date}") 
             continue
 
         cells = [td.get_text(strip=True) for td in tds] + [""] * (10 - len(tds))
         
         full_date = f"{current_date} {cells[0]}" if current_date else ""
-        print(f"🛠️ بررسی فرمت تاریخ نهایی: {full_date}") 
+        print(f" {full_date}") 
         
         try:
             event_date = None
@@ -60,17 +60,17 @@ def parse_calendar_table(table, base_url):
                     continue
 
             if not event_date:
-                raise ValueError(f"تاریخ قابل تبدیل نیست: {full_date}")
+                raise ValueError(f" {full_date}")
 
             if event_date.year < 1900:
-                print(f"⚠️ تاریخ غیرمعتبر: {full_date}")
+                print(f" {full_date}")
                 event_date = None
             else:
                 if not is_aware(event_date):
                     event_date = make_aware(event_date, timezone.get_current_timezone())
         
         except ValueError as e:
-            print(f"⚠️ مشکل در تبدیل تاریخ: {full_date}")
+            print(f" {full_date}")
             event_date = None
 
         row_dict = {
@@ -100,15 +100,15 @@ def fetch_calendar_table_dict(url: str):
     
     table = soup.find("table", class_="calendar__table")
     if table is None:
-        print("❌ جدول تقویم پیدا نشد!")
+        print("not found")
         return []
    
     return parse_calendar_table(table, url)
 
 def save_to_database(data_list):
-    """ذخیره داده‌های استخراج شده در دیتابیس Django"""
+   
     existing_events = EconomicCalendar.objects.values_list("event_id", flat=True)
-    print(f"📊 تعداد رویدادهای موجود در دیتابیس: {len(existing_events)}")
+    print(f" {len(existing_events)}")
     
     new_events = []
     for data in data_list:
@@ -129,22 +129,22 @@ def save_to_database(data_list):
     
     if new_events:
         EconomicCalendar.objects.bulk_create(new_events)
-        print(f"✅ {len(new_events)} رویداد جدید ذخیره شد!")
+        print(f" {len(new_events)} ")
     else:
-        print("⏳ هیچ رویداد جدیدی یافت نشد.")
+        print("not found")
 
 def main():
     url = "https://www.forexfactory.com/calendar?month=nov.2024"
-    print(f"🌐 دریافت داده از: {url}")
+    print(f" {url}")
     try:
         calendar_data = fetch_calendar_table_dict(url)
         if calendar_data:
-            print(f"🔍 تعداد داده‌های استخراج شده: {len(calendar_data)}")
+            print(f" {len(calendar_data)}")
         else:
-            print("⚠️ هیچ داده‌ای از سایت دریافت نشد!")
+            print("not found")
         save_to_database(calendar_data)
     except Exception as e:
-        print(f"❌ خطا در پردازش: {e}")
+        print(f" {e}")
 
 if __name__ == "__main__":
     main()

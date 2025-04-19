@@ -3,7 +3,7 @@ from decimal import Decimal
 
 # Create your models here.
 def get_default_currency():
-    return Currency.objects.get_or_create(currency="USD")[0].id  # یا هر ارز پیش‌فرض دیگر
+    return Currency.objects.get_or_create(currency="USD")[0].id  
 
 
 class MarketTypeChoices(models.TextChoices):
@@ -22,18 +22,18 @@ class TimeframeChoices(models.TextChoices):
     MN1 = "1mn", "1 Month"
 
 class Currency(models.Model):
-    currency =  models.CharField(max_length=50,unique=True)   
+    currency =  models.CharField(max_length=200,unique=True)   
     
     def __str__(self):
         return self.currency
 
 
 class Symbol(models.Model):
-    symbol = models.CharField(max_length=50, unique=True)
+    symbol = models.CharField(max_length=100, unique=True)
     currency= models.ForeignKey(Currency,on_delete=models.CASCADE,default=get_default_currency)
-    market_type = models.CharField(max_length=50, choices=MarketTypeChoices.choices)  
+    market_type = models.CharField(max_length=100, choices=MarketTypeChoices.choices)  
     sec_id = models.CharField(max_length=255, null=True, blank=True) 
-    exchange = models.CharField(max_length=50, null=True, blank=True)  
+    exchange = models.CharField(max_length=100, null=True, blank=True)  
     is_active = models.BooleanField(default=True)
     related_symbols = models.ManyToManyField("self", blank=True) 
     shares_outstanding = models.BigIntegerField(null=True, blank=True)
@@ -44,7 +44,7 @@ class Symbol(models.Model):
 
 class DataSource(models.Model):
     name = models.CharField(max_length=100, unique=True) 
-    exchange = models.CharField(max_length=50, null=True, blank=True) 
+    exchange = models.CharField(max_length=100, null=True, blank=True) 
     data_version = models.PositiveIntegerField(default=1)  
 
     def __str__(self):
@@ -53,14 +53,14 @@ class DataSource(models.Model):
 class MarketData(models.Model):
     symbol = models.ForeignKey(Symbol, on_delete=models.CASCADE)  
     data_source = models.ForeignKey(DataSource, on_delete=models.CASCADE)  
-    timeframe = models.CharField(max_length=50, choices=TimeframeChoices.choices, default="1d")  
+    timeframe = models.CharField(max_length=100, choices=TimeframeChoices.choices, default="1d")  
     datetime = models.DateTimeField()  
     open = models.DecimalField(max_digits=20, decimal_places=8)  
     high = models.DecimalField(max_digits=20, decimal_places=8)  
     low = models.DecimalField(max_digits=20, decimal_places=8)  
     close = models.DecimalField(max_digits=20, decimal_places=8)  
     volume = models.DecimalField(max_digits=20, decimal_places=8)  
-    trade_count = models.IntegerField(null=True, blank=True)  
+    trade_count = models.BigIntegerField(null=True, blank=True)  
     vwap = models.DecimalField(max_digits=20, decimal_places=8, null=True, blank=True)  
 
     class Meta:
@@ -75,11 +75,12 @@ class MarketData(models.Model):
 
 class News(models.Model):
     symbol = models.ForeignKey(Symbol, on_delete=models.CASCADE, null=True, blank=True)  
-    title = models.CharField(max_length=255)
+    title = models.TextField()
     published_at = models.DateTimeField()
     summary = models.TextField( null=True, blank=True)
-    ticker = models.CharField(max_length=10, null=True, blank=True)
-    url = models.URLField()
+    ticker = models.CharField(max_length=1000, null=True, blank=True)
+    url = models.URLField(max_length=1000)
+
 
     def __str__(self):
         return self.title
@@ -124,7 +125,7 @@ class TradeSignal(models.Model):
 class TradingStrategy(models.Model):
     name = models.CharField(max_length=255, unique=True)  
     description = models.TextField()  
-    parameters = models.JSONField()  #   (  RSI و MACD)
+    parameters = models.JSONField() 
 
     def __str__(self):
         return self.name
@@ -135,7 +136,7 @@ class BacktestResult(models.Model):
     timeframe = models.CharField(max_length=50, choices=TimeframeChoices.choices)  
     start_date = models.DateTimeField()  
     end_date = models.DateTimeField()  
-    performance_metrics = models.JSONField()  # مثل سود، افت سرمایه، نسبت شارپ
+    performance_metrics = models.JSONField()  
 
     def __str__(self):
         return f"{self.strategy} - {self.symbol}"
@@ -148,16 +149,16 @@ class ImpactChoices(models.TextChoices):
 
 
 class EconomicCalendar(models.Model):
-    event_id = models.CharField(max_length=50, unique=True, blank=True, null=True)  
-    date = models.DateTimeField()  # تاریخ رویداد
+    event_id = models.CharField(max_length=200, unique=True, blank=True, null=True)  
+    date = models.DateTimeField()
     time = models.CharField(max_length=100, default="")  
-    impact = models.CharField(max_length=200, blank=True, null=True) 
+    impact = models.CharField(blank=True, null=True) 
     country = models.CharField(max_length=200, blank=True, null=True)
-    category = models.CharField(max_length=200, blank=True, null=True)# دسته‌بندی اقتصادی
-    event = models.CharField(max_length=255)  # نام رویداد
-    actual = models.CharField(max_length=50, blank=True, null=True)  # مقدار واقعی
-    previous = models.CharField(max_length=50, blank=True, null=True)  # مقدار قبلی
-    forecast = models.CharField(max_length=50, blank=True, null=True)  # مقدار پیش‌بینی‌شده
+    category = models.CharField(max_length=200, blank=True, null=True)
+    event = models.CharField()
+    actual = models.CharField(max_length=200, blank=True, null=True)
+    previous = models.CharField(max_length=200, blank=True, null=True)  
+    forecast = models.CharField(max_length=200, blank=True, null=True)  
     source_url = models.URLField(blank=True, null=True)  
     graph=models.CharField(max_length=50, blank=True, null=True) 
     currency = models.ForeignKey(Currency, on_delete=models.CASCADE,default=get_default_currency)  

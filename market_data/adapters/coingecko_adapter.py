@@ -29,6 +29,6 @@ def fetch_and_save_crypto(crypto_id):
     )
 
     if created:
-        print(f"✅ {data['name']} ({data['symbol'].upper()}) added to the database.")
+        print(f"{data['name']} ({data['symbol'].upper()}) added to the database.")
     else:
-        print(f"⚠ {data['name']} ({data['symbol'].upper()}) already exists in the database.")
+        print(f"{data['name']} ({data['symbol'].upper()}) already exists in the database.")

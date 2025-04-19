@@ -10,7 +10,7 @@ class YahooMarketAdapter:
         self.source = "yahoo"
 
     def fetch_data(self, symbol, intervals, start_year, end_year):
-        logger.info(f"📌 Fetching {symbol} data from Yahoo Finance...")
+        logger.info(f" Fetching {symbol} data from Yahoo Finance...")
 
         ticker_symbol = f"{symbol}=X" if "/" in symbol else symbol  
         ticker = yf.Ticker(ticker_symbol)
@@ -23,7 +23,7 @@ class YahooMarketAdapter:
         
 
         if data.empty:
-            logger.error(f"❌ No data fetched for {symbol}.")
+            logger.error(f" No data fetched for {symbol}.")
             return []
 
         result = []
@@ -45,5 +45,5 @@ class YahooMarketAdapter:
        
             time.sleep(1)
 
-        logger.info(f"✅ Successfully fetched {len(result)} records for {symbol}.")
+        logger.info(f" Successfully fetched {len(result)} records for {symbol}.")
         return result
